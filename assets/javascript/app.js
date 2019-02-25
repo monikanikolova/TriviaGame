@@ -16,51 +16,52 @@
 
 // array of questions
 //Load page
+//Global Variables
+
 $(document).ready(function(){
-var artTrivia = [{
+//Object with questions and answers
+var artTrivia = [
+    {
     question: "How many paintings did Vincent Van Gogh sell during his lifetime?",
     choices: ["1", "842", "27", "193"],
     correctAnswer: "1",
-    image: "assets/images/the-red-vineyard-at-arles.jpg"
+    image: "../images/the-red-vineyard-at-arles.jpg"
 }, {
     question: " What artist sold a balloon dog for $58.4 million?",
     choices: ["Jeff Koons", "Christopher Wool", "Gerhard Ritcher", "Jasper Johns"],
     correctAnswer: "Jeff Koons",
-    image: "assets/images/balloon-dog.jpg"
+    image: "../images/balloon-dog.jpg"
 }, {
     question: "What is the only work of art Michelangelo ever signed?",
     choices: ["Sistine Chapel Ceiling", "The Pieta", "The Last Judgement", "David"],
     correctAnswer: "The Pieta",
-    image: "assets/images/signed.jpg"
+    image: "../images/signed.jpg"
 }, {
     question: "How long did it take Leonardo da Vinci to paint the Mona Lisa's lips?",
     choices: ["12 months", "12 days", "12 weeks", "12 years"],
     correctAnswer: "12 years",
-    image: "assets/images/lips.jpg"
+    image: "../images/lips.jpg"
 }, {
     question: " What painting attracted more visitors to the Louvre Museum AFTER it was stolen?",
     choices: ["Poppy Flowers", "Landscape With An Obelisk", "Mona Lisa", "The Scream"],
     correctAnswer: "Mona Lisa",
-    image: "assets/images/stolen.jpeg"
+    image: "../images/stolen.jpeg"
 }];
 
-
-//Global Variables
-var playerChoice;
-var correctAnswer = 0;
+var rightAnswer;
 var incorrectAnswer = 0;
 var question = 0;
 var questionsAsked = 0;
 var clock;
 var counter = 30;
-var playerAnswer = [];
 var game;
-
 //Start Game button
 $("#start-game").click(function() {
     loadQuestion();
-
+    console.log(questionsAsked + "asked");
+    
 });
+
 //Functions
 function timer() {
     clock = setInterval(thirtySeconds, 1000);
@@ -72,7 +73,7 @@ function thirtySeconds() {
         incorrectAnswer++;
         $("#question-panel").empty();
         $("#question-panel").append("<h1>Time Out!</h1>");
-        counter = 20;
+        counter = 30;
         wrongOrRight();
         //Move on the next question in 3 sec
         setTimeout(nextQuestion, 3000)
@@ -97,13 +98,14 @@ function loadQuestion() {
         answerButton.attr("data-answer", game.choices[i]);
         answerButton.text(game.choices[i]);
         answer.append(answerButton);
-    }
+        }
     }
     
 function nextQuestion() {
     clearInterval(clock);
     counter = 30;
     question++;
+
     if (questionsAsked < artTrivia.length) {
         loadQuestion();
     } else {
@@ -114,32 +116,44 @@ function wrongOrRight() {
     var answer = $("#answer-panel");
     var question = $("#question-panel");
     answer.empty();
-    answer.append("<h3>The correct answer is" + artTrivia[question].correctAnswer + "</h3>");
-    img.attr("src", artTrivia[question].image)
-    answer.append(image)
+    answer.append("<h3>The correct answer is" + artTrivia[question.correctAnswer] + "</h3>");
+    console.log(artTrivia[question.correctAnswer]);
+    
+    var img = $("<img>");
+    img.attr("src", artTrivia[question.image])
+    answer.append(img)
 }
+
 $("#answer-panel").on("click", ".answer-button", function(){
     clearInterval(clock);
+    //Grab button value
     var clickedButton = $(this).attr("data-answer")
     console.log(clickedButton);
     console.log(questionsAsked+ " asked");
     //Check for correct
     if (clickedButton == game.correctAnswer) {
-        correctAnswer++;
+        rightAnswer++;
         $("#question-panel").empty();
         $("#question-panel").append("<h1>Correct</h1>")
-        console.log(correctAnswer + "right;" + incorrectAnswer + "wrong");
+        console.log(rightAnswer + "right;" + incorrectAnswer + "wrong");
         wrongOrRight();
         setTimeout(nextQuestion, 3000)
-    } else if (clickedButton!= game.correctAnswer){
+    } else if (clickedButton != game.correctAnswer){
         incorrectAnswer++;
         $("#question-panel").empty();
         $("#question-panel").append("<h1>Incorrect</h1>")
-        console.log(correctAnswer + "right;" + incorrectAnswer + "wrong");
+        console.log(rightAnswer + "right;" + incorrectAnswer + "wrong");
         wrongOrRight();
         setTimeout(nextQuestion,3000)
     }        
-})
+});
+function score() {
+    $("#timer").empty();
+    $("#question-panel").empty();
+    $("#answer-panel").empty();
+    $("#question-panel").append("<h1>Final Score:<h1>" + rightAnswer + "/10</h>");
+    restartGame();
+}
 function restartGame () {
     var restartGameButton = $("<button>");
     restartGameButton.addClass("restart-game");
@@ -147,11 +161,11 @@ function restartGame () {
     $("#timer").append(restartGameButton, "<hr>");
     $(restartGameButton).click(function() {
         location.reload();
-    })
+    });
 }
-
-
 });
+
+
 //click events
 
 // // questions/ inner loop for answers
@@ -242,10 +256,3 @@ function restartGame () {
 //             this.incorrect = 0;
 //             this.loadQuestion();
 //         }
- 
-
-
-//timer on questions
-// if logic --> if answer === correct | if answer === incorrect | if time out
-// review correct/ incorrect answers
-// play again
