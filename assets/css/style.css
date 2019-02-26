@@ -1,19 +1,36 @@
 body {
     background-image: url("../images/trivia-background.jpg");
 }
+
+.pictures {
+    width: 350px;
+    height: 320px;
+    margin: 10px 450px;
+    border: 2px solid #3a293c;
+}
 #heading {
     font-family: 'Monoton', cursive;
-    font-size: 85px;
+    font-size: 75px;
     text-align: center;
     margin: 0 auto;
 
 }
+#display {
+    background-color: rgb(162,176,230, 0.7);
+    margin: 25px 100px;
+    height: 600px;
+    border-radius: 15px;
+}
+h3{
+    text-align: center;
+    font-size: 25px;
+}
 button {
     width: 300px;
-    margin: 5px 0 0 570px;
+    margin: 5px 0 0 500px;
     display: inline-block;
     padding: 15px 25px;
-    font-size: 35px;
+    font-size: 25px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -33,19 +50,23 @@ button {
   }
   #timer{
       font-family: 'Cinzel', serif;
-      font-size:25px;
+      font-size: 20px;
+      margin: 25px 0 0 0;
       text-align: center;
+      padding: 2px;
+      
 
   }
   #question-panel{
     font-family: 'Adamina', serif;
     font-size: 25px;
     text-align: center;
-    padding: 15px;
+    margin:0 auto;
+    /* padding: 15px; */
 }
   #start-game {
     font-family: 'Righteous', cursive;
-    margin: 0 570px;
+    margin: 100px 500px;
     display: inline-block;
     padding: 15px 25px;
     font-size: 50px;
@@ -58,4 +79,7 @@ button {
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #c0b7d2;
+  }
+  .restart-game {
+      margin: 20px 458px;
   }
